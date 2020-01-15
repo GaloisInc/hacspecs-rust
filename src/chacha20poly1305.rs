@@ -1,6 +1,7 @@
 // Import hacspec and all needed definitions.
 use hacspec::*;
 hacspec_imports!();
+use crucible::*;
 
 // Import chacha20 and poly1305
 use crate::chacha20::*;
@@ -34,7 +35,7 @@ pub fn encrypt(key: Key, iv: IV, aad: Bytes, msg: Bytes) -> Result<(Bytes, Tag),
     let cipher_text = match chacha(key, iv, msg) {
         Ok(c) => c,
         Err(r) => {
-            println!("Error encrypting chacha20: {}", r);
+            //println!("Error encrypting chacha20: {}", r);
             return Err(r);
         }
     };
@@ -58,11 +59,39 @@ pub fn decrypt(
         match chacha(key, iv, cipher_text.clone()) {
             Ok(c) => Ok(c),
             Err(r) => {
-                println!("Error decrypting chacha20: {}", r);
+                //println!("Error decrypting chacha20: {}", r);
                 Err(r)
             }
         }
     } else {
         Err("Mac verification failed".to_string())
     }
+}
+
+#[crux_test]
+pub fn encrypt_decrypt_correct() {
+    //bytes!(IV, 12);
+    //bytes!(Key, 32);
+    let mut key = Key::new();
+    for i in 0..31 {
+        key[i] = u8::symbolic("key");
+    }
+    let mut iv = IV::new();
+    for i in 0..11 {
+        key[i] = u8::symbolic("iv");
+    }
+    let mut aad = Bytes::new_len(8);
+    for i in 0..7 {
+        aad[i] = u8::symbolic("aad");
+    }
+    let mut msg = Bytes::new_len(8);
+    for i in 0..7 {
+        msg[i] = u8::symbolic("msg");
+    }
+    let res = encrypt(key, iv, aad, msg);
+    /*
+    match res {
+        Ok((ct, tag)) =>
+    }
+    */
 }

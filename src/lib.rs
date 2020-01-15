@@ -3,10 +3,12 @@
 //! See https://crates.io/crates/hacspec for details on hacspec-rust.
 
 // TODO: can we move this?
+#![feature(custom_attribute)]
 #![allow(clippy::suspicious_arithmetic_impl)]
 
 // Get hacspec and all depending crates.
 extern crate hacspec;
+#[macro_use] extern crate crucible;
 hacspec::hacspec_crates!();
 
 pub mod aes;

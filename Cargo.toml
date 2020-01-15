@@ -10,7 +10,8 @@ hacspec = "0.1"
 wrapping_arithmetic = "0.1"
 contracts = "0.3"
 paste = "0.1"
-uint = { git = "https://github.com/franziskuskiefer/rust-uint-n" }
+# uint = { git = "https://github.com/franziskuskiefer/rust-uint-n" }
+uint = { git = "https://github.com/franziskuskiefer/rust-uint-n", default-features = false, features = ["uint_uint_n", "uint_natmod_p", "uint_traits"] }
 # uint = { path = "../rust-uint-n" }
 
 [patch.crates-io]
